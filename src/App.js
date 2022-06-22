@@ -1,24 +1,22 @@
-import logo from './logo.svg';
+import React, {useReducer} from 'react'
+import { useRoutes } from 'react-router-dom'
+import routes from './routes/router';
+import Navbar from './Components/Navbar';
 import './App.css';
+import { initial, News, reducer } from './theme/reducer'
 
 function App() {
+  const Route = useRoutes(routes)
+  const [news] = useReducer(reducer, initial)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <main>
+        <News.Provider value={news}>
+          {Route}
+        </News.Provider>
+      </main>
+    </>
   );
 }
 
