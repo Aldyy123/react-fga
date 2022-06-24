@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
-import Card from "../Components/Card";
-import {Container} from '../theme/theme'
+import React, { useEffect, useState, Suspense, lazy } from "react";
+import { Container } from '../theme/theme'
+import { Skeleton } from "@mui/material";
+const Card = lazy(() => import("../Components/Card"));
 
 export default function Blog(props) {
     const [news, setNews] = useState([])
 
     useEffect(() => {
-        fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=40ac9c4d52ff4e0b890e1bd47a2bf9de')
+        fetch('https://jsonplaceholder.typicode.com/photos')
             .then(result => result.json())
-            .then(data => setNews(data.articles))
-            .catch(err => console.log(err))        
+            .then(data => setNews(data))
+            .catch(err => console.log(err))
     }, [])
     return (
         <>
@@ -21,7 +22,15 @@ export default function Blog(props) {
                     flexWrap: 'wrap'
                 }}>
                     {news.map((berita, i) => (
-                        <Card link={`/blog/${i}`} news={berita} key={i} />
+                        <Suspense fallback={
+                            <div>
+                                <Skeleton variant="rectangular" width={210} height={118} />
+                                <Skeleton />
+                                <Skeleton width="60%" />
+                            </div>
+                        } key={i}>
+                            <Card news={berita} />
+                        </Suspense>
                     ))}
                 </div>
             </Container>

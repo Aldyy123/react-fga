@@ -1,9 +1,10 @@
-import React, {useReducer} from 'react'
+import React, { useReducer, Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
 import routes from './routes/router';
 import Navbar from './Components/Navbar';
 import './App.css';
 import { initial, News, reducer } from './theme/reducer'
+import Skeleton from '@mui/material/Skeleton';
 
 function App() {
   const Route = useRoutes(routes)
@@ -13,7 +14,9 @@ function App() {
       <Navbar />
       <main>
         <News.Provider value={news}>
-          {Route}
+          <Suspense fallback={<Skeleton />}>
+            {Route}
+          </Suspense>
         </News.Provider>
       </main>
     </>

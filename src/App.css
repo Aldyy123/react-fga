@@ -29,3 +29,13 @@ section h2 {
   align-items: center;
   background-color: white;
 }
+
+.form div{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.form div input, .form div textarea{
+  padding: 10px;
+}
